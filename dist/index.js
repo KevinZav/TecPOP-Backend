@@ -33,7 +33,7 @@ server.app.get('/', (req, res) => {
     });
 });
 // inicializacion de la base de datos
-mongoose_1.default.connect(`mongodb://localhost:27017/tecpop`, { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true }, (err) => {
+mongoose_1.default.connect(`${process.env.urlDB}`, { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true }, (err) => {
     if (err)
         throw err;
     console.log(safe_1.default.cyan(`Base de datos ONLINE`));
