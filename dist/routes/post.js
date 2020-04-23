@@ -257,6 +257,92 @@ postRoutes.get('/post/reaccionar/:id', autenticacion_1.verificaToken, (req, res)
         });
     }));
 }));
+// ==============================
+// Post de objeto encontrado
+// ==============================
+postRoutes.post('/post/encontrado', autenticacion_1.verificaToken, (req, res) => {
+    const body = req.body;
+    const objeto = {
+        nombre: body.nombre,
+        descripcion: body.descripcion,
+        estado: 'encontrado',
+        usuario: req.usuario._id
+    };
+    objeto_1.Objeto.create(objeto).then(objetoDB => {
+        const post = {
+            created: new Date(),
+            mensaje: body.mensaje,
+            ubicacion: body.ubicacion || '',
+            objeto: objetoDB._id,
+            usuario: req.usuario._id
+        };
+        post_1.Post.create(post).then((postDB) => __awaiter(void 0, void 0, void 0, function* () {
+            yield postDB.populate('objeto').execPopulate();
+            yield postDB.populate('usuario', '-password -status').execPopulate();
+            return res.json({
+                ok: true,
+                post: postDB
+            });
+        })).catch(err => {
+            return res.json({
+                ok: false,
+                err
+            });
+        });
+    }).catch(err => {
+        return res.json({
+            ok: false,
+            err
+        });
+    });
+});
+// ==================================
+// Eliminar post de objeto encontrado
+// ==================================
+postRoutes.delete('/post/encontrado/:post', autenticacion_1.verificaToken, (req, res) => {
+    const postId = req.params.post;
+    post_1.Post.findByIdAndDelete(postId, (err, postDB) => {
+        if (err) {
+            return res.json({
+                ok: false,
+                err
+            });
+        }
+        if (!postDB) {
+            return res.json({
+                ok: false,
+                err: {
+                    message: 'No se ha encontrado un post con ese ID'
+                }
+            });
+        }
+        else {
+            const objetoId = postDB.objeto;
+            objeto_1.Objeto.findByIdAndDelete(objetoId, (err, objetoDB) => {
+                if (err) {
+                    return res.json({
+                        ok: false,
+                        err
+                    });
+                }
+                if (!objetoDB) {
+                    return res.json({
+                        ok: false,
+                        err: {
+                            message: 'No se ha encontrado un objeto con ese Id'
+                        }
+                    });
+                }
+                else {
+                    return res.json({
+                        ok: true,
+                        message: 'Post y objeto eliminados con exito'
+                    });
+                }
+            });
+        }
+    });
+});
 function cambiarEstadoObjeto(objetoID, estado) {
     return __awaiter(this, void 0, void 0, function* () {
         yield objeto_1.Objeto.findByIdAndUpdate(objetoID, { estado }, (err, objetoDB) => {
