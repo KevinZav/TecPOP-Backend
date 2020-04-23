@@ -1,0 +1,11 @@
+
+/node_modules/
+/assets/
+/classes/
+/config/
+/interfaces/
+/middlewares/
+/models/
+/routes/
+/uploads/
+/*.ts
