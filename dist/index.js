@@ -25,6 +25,13 @@ server.app.use(body_parser_1.default.json());
 server.app.use(express_fileupload_1.default({ useTempFiles: true }));
 // Uso de las rutas de aplicacion
 server.app.use(index_1.default);
+// Mensaje de bienvenida al RestServer
+server.app.get('/', (req, res) => {
+    return res.json({
+        ok: true,
+        message: 'Bienvenido al Rest Server de TecPOP'
+    });
+});
 // inicializacion de la base de datos
 mongoose_1.default.connect(`mongodb://localhost:27017/tecpop`, { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true }, (err) => {
     if (err)
