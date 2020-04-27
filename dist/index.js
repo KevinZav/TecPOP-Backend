@@ -11,6 +11,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const safe_1 = __importDefault(require("colors/safe"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
+const cors_1 = __importDefault(require("cors"));
 // Server
 const server_1 = __importDefault(require("./classes/server"));
 // Rutas de aplicacion
@@ -23,6 +24,8 @@ server.app.use(body_parser_1.default.urlencoded({ extended: true }));
 server.app.use(body_parser_1.default.json());
 // fileUpload
 server.app.use(express_fileupload_1.default({ useTempFiles: true }));
+// Importante configurar Cors
+server.app.use(cors_1.default({ origin: true, credentials: true }));
 // Uso de las rutas de aplicacion
 server.app.use(index_1.default);
 // Mensaje de bienvenida al RestServer
