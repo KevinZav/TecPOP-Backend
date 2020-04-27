@@ -162,6 +162,33 @@ userRoutes.get('/usuario', (req, res) => {
         }
     });
 });
+// ================================
+// Informacion de usuario por token
+// ================================
+userRoutes.get('/usuario/info', autenticacion_1.verificaToken, (req, res) => {
+    const id = req.usuario._id;
+    usuario_1.Usuario.findById(id, (err, userDB) => {
+        if (err) {
+            return res.json({
+                ok: false,
+                err
+            });
+        }
+        if (!userDB) {
+            return res.json({
+                ok: false,
+                err: {
+                    message: 'No se ha encontrado un usuario con ese ID'
+                }
+            });
+        }
+        const userFiltrado = underscore_1.default.pick(userDB, ['userID', 'nombre', 'apellidos', 'carrera', 'status', 'avatar']);
+        return res.json({
+            ok: true,
+            usuario: userFiltrado
+        });
+    });
+});
 // =============================
 // Actualizar Avatar de usuario
 // =============================
