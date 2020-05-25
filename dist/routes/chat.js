@@ -79,8 +79,8 @@ chatRoute.get('/chat', autenticacion_1.verificaToken, (req, res) => {
     const usuarioId = req.usuario._id;
     chat_1.Chat.find()
         .or([{ usuario1: usuarioId }, { usuario2: usuarioId }])
-        .populate('usuario1', '-password -status -userID')
         .populate('usuario2', '-password -status -userID')
+        .populate('usuario1', '-password -status -userID')
         .exec((err, chatsDB) => {
         if (err) {
             return res.json({
@@ -103,7 +103,7 @@ chatRoute.get('/chat', autenticacion_1.verificaToken, (req, res) => {
         });
         return res.json({
             ok: true,
-            chats: chatsFiltrados
+            chats: chatsDB
         });
     });
 });

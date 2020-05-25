@@ -79,10 +79,18 @@ userRoutes.put('/usuario', [autenticacion_1.verificaToken, verificacion_1.verifi
                 }
             });
         }
-        const userFiltrado = underscore_1.default.pick(userDB, ['userID', 'nombre', 'apellidos', 'carrera', 'status']);
+        const userToken = {
+            _id: userDB._id,
+            userID: userDB.userID,
+            nombre: userDB.nombre,
+            apellidos: userDB.apellidos,
+            carrera: userDB.carrera
+        };
+        // Obtencion del Token
+        const tokenUser = token_1.default.getJWToken(userToken);
         return res.json({
             ok: true,
-            usuario: userFiltrado
+            token: tokenUser
         });
     });
 });
@@ -116,7 +124,7 @@ userRoutes.delete('/usuario', autenticacion_1.verificaToken, (req, res) => {
 // =============================
 // Login de usuario
 // =============================
-userRoutes.get('/usuario', (req, res) => {
+userRoutes.post('/usuario/login', (req, res) => {
     const userID = req.body.userID;
     const password = req.body.password;
     usuario_1.Usuario.findOne({ userID }, (err, userDB) => {
@@ -182,7 +190,7 @@ userRoutes.get('/usuario/info', autenticacion_1.verificaToken, (req, res) => {
                 }
             });
         }
-        const userFiltrado = underscore_1.default.pick(userDB, ['userID', 'nombre', 'apellidos', 'carrera', 'status', 'avatar']);
+        const userFiltrado = underscore_1.default.pick(userDB, ['_id', 'userID', 'nombre', 'apellidos', 'carrera', 'status', 'avatar']);
         return res.json({
             ok: true,
             usuario: userFiltrado

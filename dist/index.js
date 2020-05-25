@@ -32,7 +32,7 @@ server.app.use(index_1.default);
 server.app.get('/', (req, res) => {
     return res.json({
         ok: true,
-        message: 'Bienvenido al Rest Server de TecPOP'
+        message: 'Bienvenido al Rest Server de TecPOP V2.0.0'
     });
 });
 // inicializacion de la base de datos

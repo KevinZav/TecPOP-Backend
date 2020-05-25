@@ -28,15 +28,15 @@ const postRoutes = express_1.Router();
 // ==============================
 postRoutes.post('/post', [autenticacion_1.verificaToken, verificacion_1.verificaDataPost], (req, res) => {
     const post = req.postVerificado;
-    const cambioEstado = cambiarEstadoObjeto(post.objeto, 'perdido');
-    if (!cambioEstado) {
-        return res.json({
-            ok: false,
-            err: {
-                message: 'No se ha cambiado el estado del objeto'
-            }
-        });
-    }
+    // const cambioEstado = cambiarEstadoObjeto(post.objeto,'Perdido');
+    // if(!cambioEstado) {
+    //     return res.json({
+    //         ok: false,
+    //         err: {
+    //             message: 'No se ha cambiado el estado del objeto'
+    //         }
+    //     })
+    // }
     post_1.Post.create(post).then((postDB) => __awaiter(void 0, void 0, void 0, function* () {
         yield postDB.populate('objeto').execPopulate();
         yield postDB.populate('usuario', '-password -status').execPopulate();
@@ -73,7 +73,7 @@ postRoutes.delete('/post/:id', [autenticacion_1.verificaToken], (req, res) => {
             });
         }
         const objetoID = postDB.objeto._id;
-        cambiarEstadoObjeto(objetoID, 'activo');
+        cambiarEstadoObjeto(objetoID, 'Activo');
         return res.json({
             ok: true,
             message: 'Se ha eliminado el post correctamente'
@@ -101,8 +101,6 @@ postRoutes.put('/post/:id', [autenticacion_1.verificaToken, verificacion_1.verif
                 }
             });
         }
-        const objetoID = postDB.objeto._id;
-        cambiarEstadoObjeto(objetoID, 'activo');
     });
     post_1.Post.findOneAndUpdate({ _id: idPost }, post, { new: true }, (err, postDB) => __awaiter(void 0, void 0, void 0, function* () {
         if (err) {
@@ -119,8 +117,6 @@ postRoutes.put('/post/:id', [autenticacion_1.verificaToken, verificacion_1.verif
                 }
             });
         }
-        const objetoID = postDB.objeto._id;
-        cambiarEstadoObjeto(objetoID, 'perdido');
         yield postDB.populate('objeto', '-usuario').execPopulate();
         yield postDB.populate('usuario', '-password -status').execPopulate();
         return res.json({
@@ -158,7 +154,7 @@ postRoutes.get('/post/:id', autenticacion_1.verificaToken, (req, res) => {
     }));
 });
 // ==============================
-// Obtener post de un usuario
+// Obtener posts de un usuario
 // ==============================
 postRoutes.get('/posts/usuario', autenticacion_1.verificaToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let page = req.query.page - 1 | 0;
@@ -171,6 +167,7 @@ postRoutes.get('/posts/usuario', autenticacion_1.verificaToken, (req, res) => __
         .populate('objeto', '-usuario')
         .populate('usuario', '-password -status')
         .limit(5)
+        .sort({ created: -1 })
         .skip(from)
         .exec((err, postsDB) => {
         return res.json({
@@ -192,6 +189,7 @@ postRoutes.get('/posts', autenticacion_1.verificaToken, (req, res) => __awaiter(
         .populate('objeto', '-usuario')
         .populate('usuario', '-password -status')
         .limit(5)
+        .sort({ created: -1 })
         .skip(from)
         .exec((err, postsDB) => {
         return res.json({
@@ -265,7 +263,7 @@ postRoutes.post('/post/encontrado', autenticacion_1.verificaToken, (req, res) =>
     const objeto = {
         nombre: body.nombre,
         descripcion: body.descripcion,
-        estado: 'encontrado',
+        estado: 'Encontrado',
         usuario: req.usuario._id
     };
     objeto_1.Objeto.create(objeto).then(objetoDB => {

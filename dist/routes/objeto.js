@@ -50,8 +50,8 @@ objetRoutes.post('/objeto', autenticacion_1.verificaToken, (req, res) => {
 // =============================
 // Borrar el objeto
 // =============================
-objetRoutes.delete('/objeto', autenticacion_1.verificaToken, (req, res) => {
-    const idObjeto = req.body.id;
+objetRoutes.delete('/objeto/eliminar/:id', autenticacion_1.verificaToken, (req, res) => {
+    const idObjeto = req.params.id;
     const idUsuario = req.usuario._id;
     objeto_1.Objeto.findOneAndDelete({ _id: idObjeto, usuario: idUsuario }, (err, objetoDB) => {
         if (err) {
@@ -140,10 +140,10 @@ objetRoutes.get('/objeto', autenticacion_1.verificaToken, (req, res) => {
     if (page < 0) {
         page = 0;
     }
-    const skip = page * 5;
+    const skip = page * 10;
     objeto_1.Objeto.find({ usuario: idUsuario })
         .populate('usuario', '-password')
-        .limit(5)
+        .limit(10)
         .skip(skip)
         .exec((err, objetosDB) => {
         if (err) {
@@ -198,7 +198,7 @@ objetRoutes.post('/objeto/imagen', autenticacion_1.verificaToken, (req, res) => 
 // ==============================
 // Borrar imagen de un objeto
 // ==============================
-objetRoutes.delete('/objeto/imagen', autenticacion_1.verificaToken, (req, res) => {
+objetRoutes.post('/objeto/imagen/eliminar', autenticacion_1.verificaToken, (req, res) => {
     const idObjeto = req.body.id;
     const imagen = req.body.image;
     const idUsuario = req.usuario._id;
