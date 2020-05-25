@@ -8,5 +8,6 @@
 /models/
 /routes/
 /uploads/
+/dist/uploads/
 /*.ts
 /configs.md
