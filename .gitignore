@@ -8,7 +8,7 @@
 /models/
 /routes/
 /uploads/
-/dist/uploads/avatar/
-/dist/uploads/objeto/
+dist/uploads/avatar/*
+dist/uploads/objeto/*
 /*.ts
 /configs.md
