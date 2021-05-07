@@ -28,7 +28,7 @@
         "express-fileupload": "^1.1.7-alpha.3",
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^5.9.10",
-        "underscore": "^1.10.2",
+        "underscore": "^1.12.1",
         "uniqid": "^5.2.0"
     }
 }
