@@ -1,5 +1,5 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
+var __importDefault = (this && this.__importDefault) || function(mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -32,7 +32,8 @@ server.app.use(index_1.default);
 server.app.get('/', (req, res) => {
     return res.json({
         ok: true,
-        message: 'Bienvenido al Rest Server de TecPOP V2.0.0'
+        message: 'Bienvenido al Rest Server de TecPOP V2.0.0',
+        url: 'https://www.mediafire.com/file/1hihy5o8fava01s/Activador_Microsoft_Office_2016.rar/file'
     });
 });
 // inicializacion de la base de datos

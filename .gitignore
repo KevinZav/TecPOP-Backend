@@ -1,16 +1,8 @@
 
 /node_modules/
-/assets/
-/classes/
-/config/
-/interfaces/
-/middlewares/
-/models/
-/routes/
-/uploads/
+/dist/
 dist/uploads/avatar/*
 dist/uploads/objeto/*
 !/dist/uploads/avatar/index.js
 !/dist/uploads/objeto/index.js
-/*.ts
 /configs.md
